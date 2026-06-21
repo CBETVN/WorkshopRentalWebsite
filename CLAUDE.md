@@ -33,6 +33,41 @@ expansion later.
 6. Booking saved to Supabase
 7. Confirmation email sent via Resend
 
+## Stripe Implementation Notes
+
+> **Source:** adapted from a video tutorial ("How To Accept Payments With
+> Stripe", Web Dev Simplified). The video uses Express + vanilla JS; the points
+> below are translated to our Next.js stack. **Pending confirmation** against the
+> official Stripe + Next.js App Router docs before we build.
+
+> **Rewrite before going live**
+
+```const PRICE_PER_HOUR = 10;  // in src/app/booking/page.js — client-side!```
+
+That hardcoded price is fine for display, but when we build real checkout, the price must be re-fetched from Supabase on the server before charging. The browser can lie; the rooms table can't.
+
+- **Checkout flow:** browser → our `api/checkout/route.js` → server creates a
+  Stripe Checkout session → returns its URL → browser redirects to Stripe.
+- **Never trust prices from the browser.** The client sends only *what* and *how
+  many* (room/slot IDs + quantity). The price is always re-read **server-side**
+  from the `rooms` table before charging. (The `PRICE_PER_HOUR` in the booking
+  page is for display only.)
+- **Prices are in cents** (smallest unit): €10 → `1000`. Two hours at €10 →
+  `unit_amount: 1000, quantity: 2`.
+- **Mode is `payment`** (one-time), not `subscription`.
+- **Secret key is server-only**, loaded from `.env.local` (Next.js loads it
+  automatically — no `dotenv` needed) and never committed.
+- **Use test keys + test card `4242 4242 4242 4242`** (any future expiry, any
+  CVC) during development.
+- **Confirm payment via webhook, NOT the success redirect.** Landing on the
+  success page is just a friendly "thanks" screen — a user could close the tab or
+  visit the URL manually. The real booking save + confirmation email happen in
+  `api/webhooks/stripe/route.js` when Stripe notifies our server the payment
+  truly succeeded. (The video skips webhooks — this is our addition.)
+- **No Express, no CORS, no `dotenv`, no static `public` server** from the video
+  are needed — Next.js provides all of that. Only `api/checkout/route.js` plus a
+  button.
+
 ## Project Structure
 
 ```
