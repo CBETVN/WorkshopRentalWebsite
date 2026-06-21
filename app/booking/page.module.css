@@ -1,0 +1,322 @@
+/* Booking page styles (plain CSS Module — scoped to booking/page.js) */
+
+.main {
+  min-height: 100vh;
+  padding: 2rem;
+}
+
+/* ---------- Header ---------- */
+.header {
+  max-width: 48rem;
+  margin: 0 auto 2.5rem;
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.backLink {
+  color: var(--muted-2);
+  font-size: 0.875rem;
+  text-decoration: none;
+  transition: color 0.15s ease;
+}
+
+.backLink:hover {
+  color: var(--foreground);
+}
+
+.title {
+  font-size: 1.875rem;
+  font-weight: 900;
+}
+
+.subtitle {
+  color: var(--muted);
+  font-size: 0.875rem;
+  margin-top: 0.25rem;
+}
+
+/* Stacked panels (calendar, slots, summary) */
+.panels {
+  max-width: 48rem;
+  margin: 0 auto;
+  display: grid;
+  gap: 1.5rem;
+}
+
+/* Shared card look */
+.card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 1rem;
+  padding: 1.5rem;
+}
+
+/* Summary card gets a subtle amber-tinted border */
+.cardAccent {
+  border-color: rgba(245, 158, 11, 0.3);
+}
+
+/* ---------- Calendar ---------- */
+.monthNav {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 1.5rem;
+}
+
+.monthLabel {
+  font-size: 1.125rem;
+  font-weight: 700;
+}
+
+.navButton {
+  color: var(--muted);
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 0.25rem 0.75rem;
+  border-radius: 0.5rem;
+  font-size: 1rem;
+  transition: background 0.15s ease, color 0.15s ease;
+}
+
+.navButton:hover {
+  color: var(--foreground);
+  background: var(--surface-2);
+}
+
+/* Seven-column grids for day labels and day cells */
+.weekLabels,
+.daysGrid {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+}
+
+.weekLabels {
+  margin-bottom: 0.5rem;
+}
+
+.daysGrid {
+  gap: 0.25rem;
+}
+
+.weekLabel {
+  text-align: center;
+  color: var(--muted-2);
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  padding: 0.5rem 0;
+}
+
+/* A single day button */
+.dayCell {
+  position: relative;
+  aspect-ratio: 1 / 1; /* perfect square cells */
+  border: 1px solid transparent;
+  background: none;
+  border-radius: 0.75rem;
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: var(--foreground);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background 0.15s ease;
+}
+
+.dayCell:hover {
+  background: #3f3f46; /* zinc-700 */
+}
+
+/* Past (disabled) days */
+.dayPast {
+  color: #3f3f46;
+  cursor: not-allowed;
+}
+
+.dayPast:hover {
+  background: none; /* no hover effect on disabled days */
+}
+
+/* The currently selected day */
+.daySelected {
+  background: var(--accent);
+  color: #000;
+  font-weight: 700;
+}
+
+.daySelected:hover {
+  background: var(--accent-hover);
+}
+
+/* Today's date (when not selected) */
+.dayToday {
+  border-color: var(--accent);
+  color: var(--accent-hover);
+}
+
+/* Little dot marking days that already have bookings */
+.bookingDot {
+  position: absolute;
+  bottom: 0.25rem;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 0.25rem;
+  height: 0.25rem;
+  border-radius: 9999px;
+  background: var(--accent);
+  opacity: 0.6;
+}
+
+/* ---------- Time slots ---------- */
+.sectionTitle {
+  font-weight: 700;
+  margin-bottom: 0.25rem;
+}
+
+.sectionHint {
+  color: var(--muted-2);
+  font-size: 0.875rem;
+  margin-bottom: 1rem;
+}
+
+.slotsGrid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 0.5rem;
+}
+
+.slot {
+  padding: 0.75rem 0;
+  border: none;
+  border-radius: 0.75rem;
+  font-size: 0.875rem;
+  font-weight: 500;
+  background: var(--surface-2);
+  color: var(--foreground);
+  cursor: pointer;
+  transition: background 0.15s ease;
+}
+
+.slot:hover {
+  background: #3f3f46;
+}
+
+.slotBooked {
+  color: var(--muted-2);
+  cursor: not-allowed;
+  text-decoration: line-through;
+}
+
+.slotBooked:hover {
+  background: var(--surface-2); /* no hover change when booked */
+}
+
+.slotSelected {
+  background: var(--accent);
+  color: #000;
+  font-weight: 700;
+}
+
+.slotSelected:hover {
+  background: var(--accent-hover);
+}
+
+/* Legend under the slots */
+.legend {
+  color: var(--muted-2);
+  font-size: 0.75rem;
+  margin-top: 1rem;
+}
+
+.legendDot {
+  display: inline-block;
+  width: 0.75rem;
+  height: 0.75rem;
+  border-radius: 0.25rem;
+  margin-right: 0.25rem;
+  vertical-align: middle;
+}
+
+.legendAvailable {
+  background: var(--surface-2);
+  border: 1px solid #3f3f46;
+}
+
+.legendSelected {
+  background: var(--accent);
+  margin-left: 1rem;
+}
+
+.legendBooked {
+  background: var(--surface-2);
+  margin-left: 1rem;
+}
+
+/* ---------- Booking summary ---------- */
+.summaryRows {
+  margin-bottom: 1.5rem;
+  display: grid;
+  gap: 0.5rem;
+}
+
+.summaryRow {
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.875rem;
+}
+
+.summaryLabel {
+  color: var(--muted);
+}
+
+.summaryValue {
+  font-weight: 500;
+}
+
+/* The "Total" row sits above a divider */
+.summaryTotal {
+  border-top: 1px solid var(--border);
+  padding-top: 0.5rem;
+  margin-top: 0.5rem;
+}
+
+.summaryTotalValue {
+  color: var(--accent);
+  font-weight: 900;
+  font-size: 1.25rem;
+}
+
+.payButton {
+  width: 100%;
+  background: var(--accent);
+  color: #000;
+  font-weight: 700;
+  font-size: 1.125rem;
+  padding: 1rem 0;
+  border: none;
+  border-radius: 0.75rem;
+  cursor: pointer;
+  transition: background 0.15s ease;
+}
+
+.payButton:hover {
+  background: var(--accent-hover);
+}
+
+.payNote {
+  text-align: center;
+  color: var(--muted-2);
+  font-size: 0.75rem;
+  margin-top: 0.75rem;
+}
+
+/* Stack the slot grid tighter on small phones */
+@media (max-width: 480px) {
+  .slotsGrid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}

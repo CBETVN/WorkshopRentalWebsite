@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import Link from "next/link";
+import styles from "./page.module.css"; // scoped plain-CSS styles for this page
 
 // Available time slots (9am - 9pm)
 const TIME_SLOTS = [
@@ -99,54 +100,48 @@ export default function BookingPage() {
   const totalPrice = totalHours * PRICE_PER_HOUR;
 
   return (
-    <main className="min-h-screen bg-zinc-950 text-white p-8">
+    <main className={styles.main}>
 
       {/* Header */}
-      <header className="max-w-3xl mx-auto mb-10 flex items-center gap-4">
-        <Link href="/" className="text-zinc-500 hover:text-white transition text-sm">
+      <header className={styles.header}>
+        <Link href="/" className={styles.backLink}>
           ← Back
         </Link>
         <div>
-          <h1 className="text-3xl font-black text-white">Book Workshop Room A</h1>
-          <p className="text-zinc-400 text-sm mt-1">Select a date, then pick your hours</p>
+          <h1 className={styles.title}>Book Workshop Room A</h1>
+          <p className={styles.subtitle}>Select a date, then pick your hours</p>
         </div>
       </header>
 
-      <div className="max-w-3xl mx-auto grid gap-6">
+      <div className={styles.panels}>
 
         {/* Calendar */}
-        <div className="bg-zinc-900 rounded-2xl border border-zinc-800 p-6">
+        <div className={styles.card}>
 
           {/* Month navigation */}
-          <div className="flex items-center justify-between mb-6">
-            <button
-              onClick={prevMonth}
-              className="text-zinc-400 hover:text-white transition px-3 py-1 rounded-lg hover:bg-zinc-800"
-            >
+          <div className={styles.monthNav}>
+            <button onClick={prevMonth} className={styles.navButton}>
               ←
             </button>
-            <h2 className="text-lg font-bold text-white">
+            <h2 className={styles.monthLabel}>
               {monthNames[currentMonth]} {currentYear}
             </h2>
-            <button
-              onClick={nextMonth}
-              className="text-zinc-400 hover:text-white transition px-3 py-1 rounded-lg hover:bg-zinc-800"
-            >
+            <button onClick={nextMonth} className={styles.navButton}>
               →
             </button>
           </div>
 
           {/* Day labels */}
-          <div className="grid grid-cols-7 mb-2">
+          <div className={styles.weekLabels}>
             {["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"].map((d) => (
-              <div key={d} className="text-center text-zinc-600 text-xs uppercase tracking-wider py-2">
+              <div key={d} className={styles.weekLabel}>
                 {d}
               </div>
             ))}
           </div>
 
           {/* Days grid */}
-          <div className="grid grid-cols-7 gap-1">
+          <div className={styles.daysGrid}>
             {/* Empty cells for offset */}
             {Array.from({ length: firstDay }).map((_, i) => (
               <div key={`empty-${i}`} />
@@ -161,22 +156,24 @@ export default function BookingPage() {
               const todayMark = isToday(currentYear, currentMonth, day);
               const hasBookings = BOOKED_SLOTS[date]?.length > 0;
 
+              // Build the class list: base cell + any state-specific styles
+              const dayClasses = [
+                styles.dayCell,
+                past ? styles.dayPast : "",
+                selected ? styles.daySelected : "",
+                todayMark && !selected ? styles.dayToday : "",
+              ].join(" ");
+
               return (
                 <button
                   key={day}
                   onClick={() => selectDate(day)}
                   disabled={past}
-                  className={`
-                    relative aspect-square rounded-xl text-sm font-medium transition flex items-center justify-center
-                    ${past ? "text-zinc-700 cursor-not-allowed" : "hover:bg-zinc-700 cursor-pointer"}
-                    ${selected ? "bg-amber-500 text-black font-bold hover:bg-amber-400" : ""}
-                    ${todayMark && !selected ? "border border-amber-500 text-amber-400" : ""}
-                    ${!selected && !past ? "text-white" : ""}
-                  `}
+                  className={dayClasses}
                 >
                   {day}
                   {hasBookings && !past && (
-                    <span className="absolute bottom-1 left-1/2 -translate-x-1/2 w-1 h-1 rounded-full bg-amber-500 opacity-60" />
+                    <span className={styles.bookingDot} />
                   )}
                 </button>
               );
@@ -186,28 +183,30 @@ export default function BookingPage() {
 
         {/* Time slots */}
         {selectedDate && (
-          <div className="bg-zinc-900 rounded-2xl border border-zinc-800 p-6">
-            <h3 className="text-white font-bold mb-1">Select Hours</h3>
-            <p className="text-zinc-500 text-sm mb-4">
+          <div className={styles.card}>
+            <h3 className={styles.sectionTitle}>Select Hours</h3>
+            <p className={styles.sectionHint}>
               {selectedDate} · €{PRICE_PER_HOUR}/hr · Click to select multiple hours
             </p>
 
-            <div className="grid grid-cols-4 gap-2">
+            <div className={styles.slotsGrid}>
               {TIME_SLOTS.map((slot) => {
                 const booked = bookedForDay.includes(slot);
                 const selected = selectedSlots.includes(slot);
+
+                // Base slot + booked/selected state
+                const slotClasses = [
+                  styles.slot,
+                  booked ? styles.slotBooked : "",
+                  selected ? styles.slotSelected : "",
+                ].join(" ");
 
                 return (
                   <button
                     key={slot}
                     onClick={() => toggleSlot(slot)}
                     disabled={booked}
-                    className={`
-                      py-3 rounded-xl text-sm font-medium transition
-                      ${booked ? "bg-zinc-800 text-zinc-600 cursor-not-allowed line-through" : ""}
-                      ${selected ? "bg-amber-500 text-black font-bold" : ""}
-                      ${!booked && !selected ? "bg-zinc-800 text-white hover:bg-zinc-700" : ""}
-                    `}
+                    className={slotClasses}
                   >
                     {slot}
                   </button>
@@ -215,42 +214,42 @@ export default function BookingPage() {
               })}
             </div>
 
-            <p className="text-zinc-600 text-xs mt-4">
-              <span className="inline-block w-3 h-3 rounded bg-zinc-800 border border-zinc-700 mr-1 align-middle" /> Available
-              <span className="inline-block w-3 h-3 rounded bg-amber-500 ml-4 mr-1 align-middle" /> Selected
-              <span className="inline-block w-3 h-3 rounded bg-zinc-800 ml-4 mr-1 align-middle line-through text-zinc-600" /> Booked
+            <p className={styles.legend}>
+              <span className={`${styles.legendDot} ${styles.legendAvailable}`} /> Available
+              <span className={`${styles.legendDot} ${styles.legendSelected}`} /> Selected
+              <span className={`${styles.legendDot} ${styles.legendBooked}`} /> Booked
             </p>
           </div>
         )}
 
         {/* Booking summary */}
         {selectedSlots.length > 0 && (
-          <div className="bg-zinc-900 rounded-2xl border border-amber-500/30 p-6">
-            <h3 className="text-white font-bold mb-4">Booking Summary</h3>
+          <div className={`${styles.card} ${styles.cardAccent}`}>
+            <h3 className={styles.sectionTitle}>Booking Summary</h3>
 
-            <div className="space-y-2 mb-6">
-              <div className="flex justify-between text-sm">
-                <span className="text-zinc-400">Date</span>
-                <span className="text-white font-medium">{selectedDate}</span>
+            <div className={styles.summaryRows}>
+              <div className={styles.summaryRow}>
+                <span className={styles.summaryLabel}>Date</span>
+                <span className={styles.summaryValue}>{selectedDate}</span>
               </div>
-              <div className="flex justify-between text-sm">
-                <span className="text-zinc-400">Hours</span>
-                <span className="text-white font-medium">{selectedSlots.sort().join(", ")}</span>
+              <div className={styles.summaryRow}>
+                <span className={styles.summaryLabel}>Hours</span>
+                <span className={styles.summaryValue}>{selectedSlots.sort().join(", ")}</span>
               </div>
-              <div className="flex justify-between text-sm">
-                <span className="text-zinc-400">Duration</span>
-                <span className="text-white font-medium">{totalHours} hour{totalHours > 1 ? "s" : ""}</span>
+              <div className={styles.summaryRow}>
+                <span className={styles.summaryLabel}>Duration</span>
+                <span className={styles.summaryValue}>{totalHours} hour{totalHours > 1 ? "s" : ""}</span>
               </div>
-              <div className="flex justify-between text-sm border-t border-zinc-800 pt-2 mt-2">
-                <span className="text-zinc-400">Total</span>
-                <span className="text-amber-500 font-black text-xl">€{totalPrice}</span>
+              <div className={`${styles.summaryRow} ${styles.summaryTotal}`}>
+                <span className={styles.summaryLabel}>Total</span>
+                <span className={styles.summaryTotalValue}>€{totalPrice}</span>
               </div>
             </div>
 
-            <button className="w-full bg-amber-500 hover:bg-amber-400 text-black font-bold py-4 rounded-xl transition text-lg">
+            <button className={styles.payButton}>
               Proceed to Payment →
             </button>
-            <p className="text-center text-zinc-600 text-xs mt-3">Card payment only · Secure checkout via Stripe</p>
+            <p className={styles.payNote}>Card payment only · Secure checkout via Stripe</p>
           </div>
         )}
 

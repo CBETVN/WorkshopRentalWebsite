@@ -1,26 +1,35 @@
-@import "tailwindcss";
+/* Global styles for the whole site (plain CSS, no Tailwind) */
 
+/* Theme colours, defined once and reused everywhere via var(--name).
+   Cosy & industrial: dark charcoal surfaces with a warm amber accent. */
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  --background: #09090b;   /* page background (near-black charcoal) */
+  --surface: #18181b;      /* cards / raised panels */
+  --surface-2: #27272a;    /* photo placeholder, subtle fills */
+  --border: #27272a;       /* hairline borders */
+  --foreground: #ffffff;   /* main text */
+  --muted: #a1a1aa;        /* secondary text */
+  --muted-2: #71717a;      /* faint labels */
+  --accent: #f59e0b;       /* amber highlight */
+  --accent-hover: #fbbf24; /* amber on hover */
 }
 
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+/* A small reset so spacing is predictable across browsers */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box; /* padding/border counted inside an element's width */
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+html,
+body {
+  height: 100%;
 }
 
 body {
   background: var(--background);
   color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: var(--font-geist-sans), Arial, Helvetica, sans-serif;
+  -webkit-font-smoothing: antialiased; /* smoother text on screens */
+  line-height: 1.5;
 }

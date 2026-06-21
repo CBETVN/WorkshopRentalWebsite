@@ -1,61 +1,62 @@
 import Link from "next/link";
+import styles from "./page.module.css"; // scoped plain-CSS styles for this page
 
 export default function Home() {
   return (
-    <main className="min-h-screen bg-zinc-950 text-white p-8">
+    <main className={styles.main}>
 
       {/* Header */}
-      <header className="max-w-3xl mx-auto mb-12 border-b border-zinc-800 pb-8">
-        <p className="text-amber-500 text-sm font-semibold tracking-widest uppercase mb-2">Sofia, Bulgaria</p>
-        <h1 className="text-5xl font-black text-white leading-tight">Workshop<br />Rental</h1>
-        <p className="text-zinc-400 mt-3 text-lg">Professional workspace. Book by the hour.</p>
+      <header className={styles.header}>
+        <p className={styles.eyebrow}>Sofia, Bulgaria</p>
+        <h1 className={styles.title}>Workshop<br />Rental</h1>
+        <p className={styles.subtitle}>Professional workspace. Book by the hour.</p>
       </header>
 
       {/* Room Card */}
-      <section className="max-w-3xl mx-auto">
-        <div className="bg-zinc-900 rounded-2xl border border-zinc-800 overflow-hidden">
+      <section className={styles.room}>
+        <div className={styles.card}>
 
           {/* Photo placeholder */}
-          <div className="bg-zinc-800 h-72 flex items-center justify-center">
-            <span className="text-zinc-600 text-sm tracking-widest uppercase">Photo coming soon</span>
+          <div className={styles.photo}>
+            <span className={styles.photoLabel}>Photo coming soon</span>
           </div>
 
           {/* Content */}
-          <div className="p-8">
+          <div className={styles.cardBody}>
 
             {/* Title + badge */}
-            <div className="flex items-start justify-between mb-4">
+            <div className={styles.cardHead}>
               <div>
-                <h2 className="text-3xl font-bold text-white">Workshop Room A</h2>
-                <p className="text-zinc-400 mt-1">Fully equipped — tools, benches, good lighting</p>
+                <h2 className={styles.roomName}>Workshop Room A</h2>
+                <p className={styles.roomDesc}>Fully equipped — tools, benches, good lighting</p>
               </div>
-              <span className="bg-amber-500 text-black text-xs font-bold px-3 py-1 rounded-full uppercase tracking-wide">Available</span>
+              <span className={styles.badge}>Available</span>
             </div>
 
             {/* Details */}
-            <div className="grid grid-cols-3 gap-4 my-6 border-t border-b border-zinc-800 py-6">
+            <div className={styles.details}>
               <div>
-                <p className="text-zinc-500 text-xs uppercase tracking-wider mb-1">Location</p>
-                <p className="text-white font-medium">Sofia, BG</p>
+                <p className={styles.detailLabel}>Location</p>
+                <p className={styles.detailValue}>Sofia, BG</p>
               </div>
               <div>
-                <p className="text-zinc-500 text-xs uppercase tracking-wider mb-1">Capacity</p>
-                <p className="text-white font-medium">Up to 4 people</p>
+                <p className={styles.detailLabel}>Capacity</p>
+                <p className={styles.detailValue}>Up to 4 people</p>
               </div>
               <div>
-                <p className="text-zinc-500 text-xs uppercase tracking-wider mb-1">Booking</p>
-                <p className="text-white font-medium">By the hour</p>
+                <p className={styles.detailLabel}>Booking</p>
+                <p className={styles.detailValue}>By the hour</p>
               </div>
             </div>
 
             {/* Price + CTA */}
-            <div className="flex items-center justify-between">
+            <div className={styles.priceRow}>
               <div>
-                <span className="text-4xl font-black text-white">€10</span>
-                <span className="text-zinc-500 ml-2">/ hour</span>
+                <span className={styles.price}>€10</span>
+                <span className={styles.priceUnit}>/ hour</span>
               </div>
               <Link href="/booking">
-                <button className="bg-amber-500 hover:bg-amber-400 text-black font-bold px-8 py-4 rounded-xl transition text-lg">
+                <button className={styles.bookButton}>
                   Book Now →
                 </button>
               </Link>
@@ -65,7 +66,7 @@ export default function Home() {
         </div>
 
         {/* Footer note */}
-        <p className="text-center text-zinc-600 text-sm mt-8">Payment by card only · Upfront booking · Instant confirmation</p>
+        <p className={styles.footnote}>Payment by card only · Upfront booking · Instant confirmation</p>
       </section>
 
     </main>
