@@ -1,0 +1,20 @@
+/* Reusable "panel" box — the cosy/industrial look used across the site:
+   a dark surface with a hairline border and rounded corners. */
+.panel {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 1rem;
+  padding: 1.5rem;
+}
+
+/* Variant: amber-tinted border (used for the booking summary, to draw the eye). */
+.accent {
+  border-color: rgba(245, 158, 11, 0.3);
+}
+
+/* Variant: edge-to-edge content. Removes padding and clips children to the
+   rounded corners — used when something like a photo should fill the panel. */
+.flush {
+  padding: 0;
+  overflow: hidden;
+}

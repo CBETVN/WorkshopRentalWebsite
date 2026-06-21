@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import Link from "next/link";
+import Panel from "@/components/Panel/Panel"; // reusable boxed container
 import styles from "./page.module.css"; // scoped plain-CSS styles for this page
 
 // Available time slots (9am - 9pm)
@@ -116,7 +117,7 @@ export default function BookingPage() {
       <div className={styles.panels}>
 
         {/* Calendar */}
-        <div className={styles.card}>
+        <Panel>
 
           {/* Month navigation */}
           <div className={styles.monthNav}>
@@ -179,11 +180,11 @@ export default function BookingPage() {
               );
             })}
           </div>
-        </div>
+        </Panel>
 
         {/* Time slots */}
         {selectedDate && (
-          <div className={styles.card}>
+          <Panel>
             <h3 className={styles.sectionTitle}>Select Hours</h3>
             <p className={styles.sectionHint}>
               {selectedDate} · €{PRICE_PER_HOUR}/hr · Click to select multiple hours
@@ -219,12 +220,12 @@ export default function BookingPage() {
               <span className={`${styles.legendDot} ${styles.legendSelected}`} /> Selected
               <span className={`${styles.legendDot} ${styles.legendBooked}`} /> Booked
             </p>
-          </div>
+          </Panel>
         )}
 
         {/* Booking summary */}
         {selectedSlots.length > 0 && (
-          <div className={`${styles.card} ${styles.cardAccent}`}>
+          <Panel accent>
             <h3 className={styles.sectionTitle}>Booking Summary</h3>
 
             <div className={styles.summaryRows}>
@@ -250,7 +251,7 @@ export default function BookingPage() {
               Proceed to Payment →
             </button>
             <p className={styles.payNote}>Card payment only · Secure checkout via Stripe</p>
-          </div>
+          </Panel>
         )}
 
       </div>

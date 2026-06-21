@@ -1,4 +1,5 @@
 import Link from "next/link";
+import Panel from "@/components/Panel/Panel"; // reusable boxed container
 import styles from "./page.module.css"; // scoped plain-CSS styles for this page
 
 export default function Home() {
@@ -14,7 +15,8 @@ export default function Home() {
 
       {/* Room Card */}
       <section className={styles.room}>
-        <div className={styles.card}>
+        {/* flush = no padding, so the photo can fill the panel edge-to-edge */}
+        <Panel flush>
 
           {/* Photo placeholder */}
           <div className={styles.photo}>
@@ -22,10 +24,10 @@ export default function Home() {
           </div>
 
           {/* Content */}
-          <div className={styles.cardBody}>
+          <div className={styles.panelBody}>
 
             {/* Title + badge */}
-            <div className={styles.cardHead}>
+            <div className={styles.panelHead}>
               <div>
                 <h2 className={styles.roomName}>Workshop Room A</h2>
                 <p className={styles.roomDesc}>Fully equipped — tools, benches, good lighting</p>
@@ -63,7 +65,7 @@ export default function Home() {
             </div>
 
           </div>
-        </div>
+        </Panel>
 
         {/* Footer note */}
         <p className={styles.footnote}>Payment by card only · Upfront booking · Instant confirmation</p>
