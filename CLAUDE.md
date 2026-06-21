@@ -81,6 +81,15 @@ Supabase tables: `rooms`, `bookings`, `availability` (plus `blocklist` and
 
 ## Features
 
+### Big language button (with flags) with two options BG and ENG
+
+
+
+
+
+
+
+
 ### Date Blocking (owner blocks / "fake" bookings)
 
 - Owner can block dates so they appear unavailable to customers.
