@@ -1,0 +1,1 @@
+Planned future features: coupon/discount code system, user blocklist (by email and Stripe card fingerprint), optional phone verification, cancellation/refund logic with configurable time window, multi-room expansion. Keep code modular to support these later.
